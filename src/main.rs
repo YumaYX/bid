@@ -1,5 +1,7 @@
+use bid::binary_digit;
+
 fn main() {
     for n in 0..=255 {
-        println!("{} {:08b}", n,n );
+        println!("{} {}", n, binary_digit(n));
     }
 }
