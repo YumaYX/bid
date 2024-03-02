@@ -1,7 +1,7 @@
-use bid::binary_digit;
+mod bid;
 
 fn main() {
     for n in 0..=255 {
-        println!("{} {}", n, binary_digit(n));
+        println!("{} {}", n, bid::binary_digit(n));
     }
 }
