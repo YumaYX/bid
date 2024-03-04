@@ -29,7 +29,6 @@ fn test_case_1() -> TestResult {
     test_run(&["0"], "00000000\n".to_string())
 }
 
-
 #[test]
 fn test_case_2() -> TestResult {
     test_run(&["255"], "11111111\n".to_string())
