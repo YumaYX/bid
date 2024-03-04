@@ -8,3 +8,29 @@ mod tests {
         assert_eq!(bid::binary_digit(123), "01111011");
     }
 }
+
+use assert_cmd::Command;
+use std::error::Error;
+
+const PRG: &str = "bid";
+type TestResult = Result<(), Box<dyn Error>>;
+
+fn test_run(args: &[&str], expected: String) -> TestResult {
+    Command::cargo_bin(PRG)?
+        .args(args)
+        .assert()
+        .success()
+        .stdout(expected);
+    Ok(())
+}
+
+#[test]
+fn test_case_1() -> TestResult {
+    test_run(&["0"], "00000000\n".to_string())
+}
+
+
+#[test]
+fn test_case_2() -> TestResult {
+    test_run(&["255"], "11111111\n".to_string())
+}
