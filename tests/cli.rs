@@ -42,3 +42,4 @@ fn test_case_3() -> TestResult {
 fn test_case_4() -> TestResult {
     dies_invalid_args(&["256"], "USAGE")
 }
+
