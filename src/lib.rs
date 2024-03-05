@@ -29,12 +29,17 @@ pub fn run() -> MyResult<()> {
     if let Some(number_str) = matches.value_of("decimal_number") {
         if let Ok(value) = number_str.parse::<u8>() {
             println!("{}", binary_digit(value));
-            return Ok(());
+        } else {
+            return Err("".into())
         }
-        return Err("".into())
+    }else{
+        display_all_u8_bin_digits();
     }
+    Ok(())
+}
+
+fn display_all_u8_bin_digits() {
     for n in 0..=255 {
         println!("{} {}", n, binary_digit(n));
     }
-    Ok(())
 }
