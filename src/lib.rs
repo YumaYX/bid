@@ -5,6 +5,14 @@ pub fn binary_digit(num: u8) -> String {
     format!("{:08b}", num)
 }
 
+#[test]
+fn test_binary_digit() {
+    assert_eq!(binary_digit(0), "00000000");
+    assert_eq!(binary_digit(255), "11111111");
+    assert_eq!(binary_digit(170), "10101010");
+    assert_eq!(binary_digit(123), "01111011");
+}
+
 type MyResult<T> = Result<T, Box<dyn Error>>;
 
 fn parse_u8(val: &str) -> MyResult<u8> {
