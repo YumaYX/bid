@@ -5,14 +5,15 @@ pub fn binary_digit(num: u8) -> String {
     format!("{:08b}", num)
 }
 
-fn is_valid_range(value: String) -> Result<(), String> {
-    match value.parse::<u8>() {
-        Ok(_) => Ok(()),
-        Err(err) => Err(err.to_string()),
+type MyResult<T> = Result<T, Box<dyn Error>>;
+
+fn parse_u8(val: &str) -> MyResult<u8> {
+    if let Ok(n) = val.parse() {
+        Ok(n)
+    } else {
+        Err(From::from(val))
     }
 }
-
-type MyResult<T> = Result<T, Box<dyn Error>>;
 
 pub fn run() -> MyResult<()> {
     let matches = App::new("bid")
@@ -21,25 +22,20 @@ pub fn run() -> MyResult<()> {
             Arg::with_name("decimal_number")
                 .value_name("DECIMAL NUMBER(0-255)")
                 .required(false)
-                .max_values(1)
-                .validator(is_valid_range)
         )
         .get_matches();
 
-    if let Some(number_str) = matches.value_of("decimal_number") {
-        if let Ok(value) = number_str.parse::<u8>() {
-            println!("{}", binary_digit(value));
-        } else {
-            return Err("".into())
-        }
-    }else{
-        display_all_u8_bin_digits();
+    if matches.is_present("decimal_number") {
+        let dn: Option<u8> = matches
+            .value_of("decimal_number")
+            .map(parse_u8)
+            .transpose()
+            .map_err(|_e| format!("{}", matches.usage()))?;
+        println!("{}", binary_digit(dn.unwrap()));
+    } else {
+        for n in 0..=255 {
+            println!("{} {}", n, binary_digit(n));
+        };
     }
     Ok(())
-}
-
-fn display_all_u8_bin_digits() {
-    for n in 0..=255 {
-        println!("{} {}", n, binary_digit(n));
-    }
 }
